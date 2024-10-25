@@ -1,70 +1,25 @@
 
-# GhostFaceNets
+# EfficientFaceV2S
 
 ## Introduction
-- This repository contains the official implementation of GhostFaceNets, State-Of-The-Art lightweight face recognition models.
-- **Accepted in IEEE Access**
-- [Paper link](https://ieeexplore.ieee.org/document/10098610)
+- This repository contains the official implementation of EfficientFaceV2S face recognition models.
 
-![GhostFaceNets](/images/Picture11.png)
-
-## Other Implementations
-- PyTorch Implementations:
-  1) https://github.com/Hazqeel09/ellzaf_ml
+![EfficientFaceV2S](/images/img.png)
 
 ## Results
   - `IJBB` and `IJBC` are scored at `TAR@FAR=1e-4`
-  - Links in `Model backbone` are `h5` models in Google drive. `GhostFaceNet-w-s (loss)` where `w` refers to width, `s` refers to strides, and `loss` refers to the loss function {`A` refers to ArcFace, `C` refers to CosFace, and `SCA` refers to Subcenter ArcFace}.
-  - **In my last experiments, I was able to get 99.7833% and 99.7167% accuracies on LFW using GhostFaceNetV1 S1 and S2 trained on MS1MV3 dataset. To reproduce, simply download [lfw.bin](https://github.com/leondgarse/Keras_insightface/releases/download/v1.0.0/lfw.bin), follow the Datasets and Data Preparation, download the weights, and then modify and run evaluation.ipynb. Note: Set flip=True inside the code.**
+  - **Download this version of the LFW bechmark [lfw.bin](https://github.com/leondgarse/Keras_insightface/releases/download/v1.0.0/lfw.bin), follow the Datasets and Data Preparation, download the weights, and then modify and run evaluation.ipynb. Note: Set flip=True inside the code.**
     
-  - **GhostFaceNetV1**
+  - **EfficientFaceV2S**
 
   | Model | Training Dataset | lfw (%)      | cfp_fp (%)   | agedb_30 (%) | IJBB     | IJBC     |
   | -------------- | ----- | -------- | -------- | -------- | -------- | -------- |
-  | [GhostFaceNetV1-0.5-2 (A)](https://github.com/HamadYA/GhostFaceNets/releases/download/v1.0/GN_W0.5_S2_ArcFace_epoch16.h5) | MS1MV2 | 99.783 | 83.4 | 91.13 | - | - |
-  | [GhostFaceNetV1-1-2 (A)](https://github.com/HamadYA/GhostFaceNets/releases/download/v1.1/GN_W1_S2_ArcFace_epoch18.h5) | MS1MV2 | 99.383 | 88.81 | 94.85 | - | - |
-  | [GhostFaceNetV1-1.2-2 (A)]() | MS1MV2 | 99.53 | 90.13 | 95.62 | - | - |
-  | [GhostFaceNetV1-1.4-2 (A)]() | MS1MV2 | 99.6167 | 90.8857 | 95.78 | - | - |
-  | [GhostFaceNetV1-1.3-2 (A)](https://github.com/HamadYA/GhostFaceNets/releases/download/v1.5/GN_W1.3_S2_ArcFace_epoch48.h5) | MS1MV2 | 99.65 | 91.51 | 96.18 |90.53 | 92.66   |
-  | [GhostFaceNetV1-1.3-1 (A)](https://github.com/HamadYA/GhostFaceNets/releases/download/v1.4/GN_W1.3_S1_ArcFace_epoch46.h5) | MS1MV2 | 99.7667 | 95.64 | 97.58 |92.19 | 94.06   |
-  | [GhostFaceNetV1-1.3-2 (C)]() | MS1MV2 | 99.5167 | 90.37 | 95.23 | - | - |
-  | [GhostFaceNetV1-1.3-2 (SCA)](https://github.com/HamadYA/GhostFaceNets/releases/download/v1.7/epoch17.h5) | MS1MV2 | 99.633 | 90.73 | 95.6 | - | - |
-  | [GhostFaceNetV1-1.3-1 (C)](https://github.com/HamadYA/GhostFaceNets/releases/download/v1.6/epoch17.h5) | MS1MV2 | 99.7167 | 94.7429 | 97.1833 | - | - |
-  | [GhostFaceNetV1-1.3-1 (SCA)]() | MS1MV2 | 99.667 | 91.46 | 95.85 | - | - |
-  | [GhostFaceNetV1-1.3-1 (A)](https://github.com/HamadYA/GhostFaceNets/releases/download/v1.2/GhostFaceNet_W1.3_S1_ArcFace.h5) | MS1MV3 | 99.73 | 96.83 | 98 | 93.12 | 94.94 |
-  | [GhostFaceNetV1-1.3-2 (A)](https://github.com/HamadYA/GhostFaceNets/releases/download/v1.3/GhostFaceNet_W1.3_S2_ArcFace.h5) | MS1MV3 | 99.68 | 93.31 | 96.92 | 91.25 | 93.45 |
-  | [GhostFaceNetV1-2-1 (A)]() | MS1MV2 | 99.77 | 96.56 | 97.47 | - | - |
-
-- **GhostFaceNetV2**
-
-  | Model | Training Dataset | lfw (%)      | cfp_fp (%)   | agedb_30 (%) | IJBB     | IJBC     |
-  | -------------- | ----- | -------- | -------- | -------- | -------- | -------- |
-  | GhostFaceNetV2-1-2 (A) | MS1MV2 | 99.65 | 92.9 | 96.212 | - | - |
-  | GhostFaceNetV2-1.1-2 (A) | MS1MV2 | 99.6 | 91.814 | 95.683 | - | - |
-  | GhostFaceNetV2-1.2-2 (A) | MS1MV2 | 99.633 | 92.686 | 95.9 | - | - |
-  | GhostFaceNetV2-1.4-2 (A) | MS1MV2 | 99.683 | 91.986 | 95.983 | - | - |
-  | GhostFaceNetV2-1.5-2 (A) | MS1MV2 | 99.7 | 93.9 | 96.483 | - | - |
-  | GhostFaceNetV2-1-2 (A) | MS1MV3 | 99.667 | 94.857 | 96.417 | - | - |
-  | GhostFaceNetV2-1.1-2 (A) | MS1MV3 | 99.667 | 92.471 | 96.167 | - | - |
-  | GhostFaceNetV2-1.2-2 (A) | MS1MV3 | 99.683 | 94.343 | 96.383 | - | - |
-  | GhostFaceNetV2-1.4-2 (A) | MS1MV3 | 99.683 | 94.417 | 96.417 | - | - |
-  | GhostFaceNetV2-1.5-2 (A) | MS1MV3 | 99.676 | 94.857 | 96.417 | - | - |
-  | GhostFaceNetV2-1.3-2 (A) | MS1MV2 | 99.717 | 93.071 | 96.55 | 91.7624 |  |
-  | GhostFaceNetV2-1.3-2 (A) | MS1MV3 | 99.683 | 94.2857 | 96.833 | 91.889 |   |
-  | GhostFaceNetV2-1.3-2 (C) | MS1MV2 | 99.584 | 91.931 | 95.6 | - | - |
-  | GhostFaceNetV2-1.3-2 (SCA) | MS1MV2 | 99.7 | 92.291 | 95.97 | - | - |
-  | GhostFaceNetV2-1.3-1 (C) | MS1MV2 | 99.7167 | 94.7429 | 97.1833 | - | - |
-  | GhostFaceNetV2-1.3-1 (SCA) | MS1MV2 | 99.667 | 91.46 | 95.85 | - | - |
-  | GhostFaceNetV2-1.3-1 (A) | MS1MV3 | 99.73 | 96.83 | 98 | 93.12 | 94.94 |
-  | GhostFaceNetV2-1.3-2 (A) | MS1MV3 | 99.68 | 93.31 | 96.92 | 91.25 | 93.45 |
-  | GhostFaceNetV2-1.3-1 (A) | MS1MV2 |  |  |  | - | - |
-  | GhostFaceNetV2-1.3-1 (A) | MS1MV3 |  |  |  | - | - |
-
+  | [EfficientFaceV2S](https://github.com/HamadYA/EfficientFaceV2S/releases/download/v1/EfficientFaceV2S.h5) | MS1MV3 | 99.783 | 83.4 | 91.13 | - | - |
+  
 ***
 
-
 ## Installation
-To run GhostFaceNets, please install the following packages:
+To run EfficientFaceV2S, please install the following packages:
 
     1. Python 3.9.12 64-bit
     2. TensorFlow 2.8.0 or above (CUDA compatible GPU needed for GPU training)
@@ -130,9 +85,6 @@ To run GhostFaceNets, please install the following packages:
     ```
 
 ## Project Structure
-- **Model Modules**
-    - [backbones.py](backbones.py) implementations of `ghostnetV1` and `ghostnetV2`. Copied from [keras_insightface](https://github.com/leondgarse/Keras_insightface) and [keras_cv_attention_models](https://github.com/leondgarse/keras_cv_attention_models) source codes and modified.
-    - [GhostFaceNets.py](GhostFaceNets.py) contains `GhostFaceNetV1` and `GhostFaceNetV2` models.
 - **Training Modules**
     - [train.py](train.py) contains a `Train` class. It uses a `scheduler` to connect different `loss` / `optimizer` / `epochs`. The basic function is simply `basic_model` --> `build dataset` --> `add output layer` --> `add callbacks` --> `compile` --> `fit`.
     - [data.py](data.py) loads image data as `tf.dataset` for training. `Triplet` dataset is different from others.
@@ -150,27 +102,31 @@ To run GhostFaceNets, please install the following packages:
   - We included all training scripts in the paper in [training_scripts.ipynb](training_scripts.ipynb)
   - **Training example** `train.Train` is mostly functioned as a scheduler.
     ```py
+    import os
     from tensorflow import keras
-    import losses, train, GhostFaceNets
+    import losses, train, models
+    import tensorflow as tf
+    import keras_cv_attention_models
+    from keras_cv_attention_models import efficientnet
+    import tensorflow_addons as tfa
 
     data_path = 'datasets/faces_emore_112x112_folders'
     eval_paths = ['datasets/faces_emore/lfw.bin', 'datasets/faces_emore/cfp_fp.bin', 'datasets/faces_emore/agedb_30.bin']
 
-    basic_model = GhostFaceNets.buildin_models("ghostnetv1", dropout=0, emb_shape=512, output_layer='GDC', bn_momentum=0.9, bn_epsilon=1e-5)
-    basic_model = GhostFaceNets.add_l2_regularizer_2_model(basic_model, weight_decay=5e-4, apply_to_batch_normal=False)
-    basic_model = GhostFaceNets.replace_ReLU_with_PReLU(basic_model)
+    basic_model = efficientnet.EfficientNetV2S(input_shape=(112, 112, 3), num_classes=0, drop_connect_rate=0.2, pretrained="imagenet", first_strides=1)
+basic_model = models.buildin_models(basic_model, dropout=0.2, emb_shape=512, output_layer='F', bn_momentum=0.9, bn_epsilon=1e-5, add_pointwise_conv=True, pointwise_conv_act="swish", scale=True, use_bias=False)
 
     tt = train.Train(data_path, eval_paths=eval_paths,
-    save_path='ghostnetv1_w1.3_s2.h5', basic_model=basic_model, model=None, 
-    lr_base=0.1, lr_decay=0.5, lr_decay_steps=45, lr_min=1e-5,
-    batch_size=128, random_status=0, eval_freq=1, output_weight_decay=1)
+    save_path='EfficientFaceV2S.h5',
+    basic_model=basic_model, model=None, lr_base=0.01, lr_decay=0.5, lr_decay_steps=50, lr_min=1e-6, lr_warmup_steps=3,
+    batch_size=512, random_status=100, eval_freq=1, output_weight_decay=1)
 
-    optimizer = keras.optimizers.SGD(learning_rate=0.1, momentum=0.9)
-    sch = [
-        {"loss": losses.ArcfaceLoss(scale=32), "epoch": 1, "optimizer": optimizer},
-        {"loss": losses.ArcfaceLoss(scale=64), "epoch": 50},
-    ]
-    tt.train(sch, 0)
+optimizer = tfa.optimizers.AdamW(learning_rate=1e-2, weight_decay=5e-4)    sch = [
+    {"loss": losses.AdaFaceLoss(scale=16), "epoch": 4, "optimizer": optimizer},
+    {"loss": losses.AdaFaceLoss(scale=32), "epoch": 3},
+    {"loss": losses.AdaFaceLoss(scale=64), "epoch": 46},
+]
+tt.train(sch, 0)
     ```
     May use `tt.train_single_scheduler` controlling the behavior more detail.
   - **Model** basically containing two parts:
@@ -196,12 +152,14 @@ To run GhostFaceNets, please install the following packages:
     import losses, train
     data_path = 'datasets/faces_emore_112x112_folders'
     eval_paths = ['datasets/faces_emore/lfw.bin', 'datasets/faces_emore/cfp_fp.bin', 'datasets/faces_emore/agedb_30.bin']
-    tt = train.Train(data_path, 'ghostnetv1_w1.3_s2.h5', eval_paths, model='./checkpoints/ghostnetv1_w1.3_s2.h5',
-                    batch_size=128, random_status=0, lr_base=0.1, lr_decay=0.5, lr_decay_steps=45, lr_min=1e-5, eval_freq=1, output_weight_decay=1)
+    tt = train.Train(data_path, 'EfficientFaceV2S.h5', eval_paths, model='./checkpoints/EfficientFaceV2S.h5',
+                    batch_size=128, lr_base=0.01, lr_decay=0.5, lr_decay_steps=50, lr_min=1e-6, lr_warmup_steps=3,
+    batch_size=512, random_status=100, eval_freq=1, output_weight_decay=1)
 
     sch = [
-      # {"loss": losses.ArcfaceLoss(scale=32), "epoch": 1, "optimizer": optimizer},
-      {"loss": losses.ArcfaceLoss(scale=64), "epoch": 35},
+      # {"loss": losses.AdaFaceLoss(scale=16), "epoch": 6, "optimizer": optimizer},
+        {"loss": losses.AdaFaceLoss(scale=32), "epoch": 8},
+    {"loss": losses.AdaFaceLoss(scale=64), "epoch": 46},
     ]
     tt.train(sch, initial_epoch=15)
     ```
@@ -209,16 +167,14 @@ To run GhostFaceNets, please install the following packages:
   - **Evaluation** example
     ```py
     import evals
-    basic_model = keras.models.load_model('checkpoints/ghostnetv1_w1.3_s2.h5', compile=False)
+    basic_model = keras.models.load_model('checkpoints/EfficientFaceV2S.h5', compile=False)
     ee = evals.eval_callback(basic_model, 'datasets/faces_emore/lfw.bin', batch_size=256, PCA_acc=True)
     ee.on_epoch_end(0)
-    # >>>> lfw evaluation max accuracy: 0.996833, thresh: 0.223459, previous max accuracy: 0.000000, PCA accuray = 0.996000 ± 0.002494
-    # >>>> Improved = 0.996833
     ```
     For training process, default evaluating strategy is `on_epoch_end`. Setting an `eval_freq` greater than `1` in `train.Train` will also **add** an `on_batch_end` evaluation.
     ```py
     # Change evaluating strategy to `on_epoch_end`, as long as `on_batch_end` for every `1000` batch.
-    tt = train.Train(data_path, 'ghostnetv1_w1.3_s2.h5', eval_paths, basic_model=basic_model, eval_freq=1000)
+    tt = train.Train(data_path, 'EfficientFaceV2S.h5', eval_paths, basic_model=basic_model, eval_freq=1000)
     ```
 ## Other Basic Functions and Parameters
   - **train.Train output_weight_decay** controls `L2 regularizer` value added to `output_layer`.
@@ -235,7 +191,7 @@ To run GhostFaceNets, please install the following packages:
   - **train.Train random_cutout_mask_area** set ratio of randomly cutout image bottom `2/5` area, regarding as ignoring mask area.
   - **train.Train partial_fc_split** set a int number like `2` / `4`, will build model and dataset with total classes split in `partial_fc_split` parts. Works also on a single GPU. Supports `ArcFace` loss family like `ArcFace` / `AirFaceLoss` / `CosFaceLoss` / `MagFaceLoss`.
   - **models.buildin_models** is mainly for adding output feature layer `GDC` to a backbone model. The first parameter `stem_model` can be:
-    - String like `ghostnetV1` / `ghostnetV2` can be printed by `models.print_buildin_models()`.
+    - String can be printed by `models.print_buildin_models()`.
     - **models.add_l2_regularizer_2_model** will add `l2_regularizer` to `dense` / `convolution` layers, or set `apply_to_batch_normal=True` also to `PReLU` / `BatchNormalization` layers. The actual added `l2` value is divided by `2`.
     ```py
     # Will add keras.regularizers.L2(5e-4) to `dense` / `convolution` layers.
@@ -329,21 +285,21 @@ To run GhostFaceNets, please install the following packages:
   - In case placing `IJB` dataset `IJB/IJB_release`, basic usage will be:
     ```sh
     # Test mxnet model, default scenario N0D1F1
-    python IJB_evals.py -m 'checkpoints/GhostFaceNet_W1.3_S1_ArcFace.h5' -d IJB/IJB_release -L
+    python IJB_evals.py -m 'checkpoints/EfficientFaceV2S.h5' -d IJB/IJB_release -L
 
     # Test keras h5 model, default scenario N0D1F1
-    python IJB_evals.py -m 'checkpoints/GhostFaceNet_W1.3_S1_ArcFace.h5' -d IJB/IJB_release -L
+    python IJB_evals.py -m 'checkpoints/EfficientFaceV2S.h5' -d IJB/IJB_release -L
 
     # `-B` to run all 8 tests N{0,1}D{0,1}F{0,1}
-    python IJB_evals.py -m 'checkpoints/GhostFaceNet_W1.3_S1_ArcFace.h5' -d IJB/IJB_release -B -L
+    python IJB_evals.py -m 'checkpoints/EfficientFaceV2S.h5' -d IJB/IJB_release -B -L
 
     # `-N` to run 1N test
-    python IJB_evals.py -m 'checkpoints/GhostFaceNet_W1.3_S1_ArcFace.h5' -d IJB/IJB_release -N -L
+    python IJB_evals.py -m 'checkpoints/EfficientFaceV2S.h5' -d IJB/IJB_release -N -L
 
     # `-E` to save embeddings data
-    python IJB_evals.py -m 'checkpoints/GhostFaceNet_W1.3_S1_ArcFace.h5' -d IJB/IJB_release -E
+    python IJB_evals.py -m 'checkpoints/EfficientFaceV2S.h5' -d IJB/IJB_release -E
     # Then can be restored for other tests, add `-E` to save again
-    python IJB_evals.py -R IJB_result/checkpoints/GhostFaceNet_W1.3_S1_ArcFace_IJBB.npz -d IJB/IJB_release -B
+    python IJB_evals.py -R IJB_result/checkpoints/EfficientFaceV2S_IJBB.npz -d IJB/IJB_release -B
 
     # Plot result only, this needs the `label` data, which can be saved using `-L` parameter.
     # Or should provide the label txt file.
@@ -361,7 +317,7 @@ To run GhostFaceNets, please install the following packages:
   - Edit and call ``run.sh`` to evaluate your face recognition model performance.
 
 **If errors**
-  - Run gen_megaface.ipynb or gen_megaface.py **After making appropriate modifications if needed, i.e., provide model path; or move the GhostFaceNets directory to be a part of the MegaFace testsuite**
+  - Run gen_megaface.ipynb or gen_megaface.py **After making appropriate modifications if needed, i.e., provide model path; or move the EfficientFaceV2S directory to be a part of the MegaFace testsuite**
   - Run run_remove_noises.sh
   - Run run_megaface.sh
   - Run run_megaface_refined.sh
@@ -377,18 +333,10 @@ To run GhostFaceNets, please install the following packages:
   ***
 
 ## Citation
-If you use GhostFaceNets (or any part of this code in your research), please cite the following:
+If you use EfficientFaceV2S (or any part of this code in your research), please cite the following:
 
 ```
-@ARTICLE{10098610,
-  author={Alansari, Mohamad and Hay, Oussama Abdul and Javed, Sajid and Shoufan, Abdulhadi and Zweiri, Yahya and Werghi, Naoufel},
-  journal={IEEE Access}, 
-  title={GhostFaceNets: Lightweight Face Recognition Model From Cheap Operations}, 
-  year={2023},
-  volume={11},
-  number={},
-  pages={35429-35446},
-  doi={10.1109/ACCESS.2023.3266068}}
+Alansari, Mohamad and Alnuaimi, Khaled and Ganapathi, Dr. Iyyakutti Iyappan and Alansari, Sara and Javed, Sajid and Shoufan, Abdulhadi and Zweiri, Yahya and Werghi, Naoufel, Efficientfacev2s: A Lightweight Model and a Benchmarking Approach for Drone-Captured Face Recognition. Available at SSRN: https://ssrn.com/abstract=4698437 or http://dx.doi.org/10.2139/ssrn.4698437
 
 ```
 and
