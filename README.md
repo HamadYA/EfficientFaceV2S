@@ -14,7 +14,7 @@
 
   | Model | Training Dataset | lfw (%)      | cfp_fp (%)   | agedb_30 (%) | IJBB     | IJBC     |
   | -------------- | ----- | -------- | -------- | -------- | -------- | -------- |
-  | [EfficientFaceV2S](https://github.com/HamadYA/EfficientFaceV2S/releases/download/v1/EfficientFaceV2S.h5) | MS1MV3 | 99.783 | 83.4 | 91.13 | - | - |
+  | [EfficientFaceV2S](https://github.com/HamadYA/EfficientFaceV2S/releases/download/v1/EfficientFaceV2S.h5) | MS1MV3 | 99.85 | 99.37 | 98.50 | 96.12 | 97.42 |
   
 ***
 
