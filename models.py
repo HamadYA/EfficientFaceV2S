@@ -1,6 +1,177 @@
+
 import tensorflow as tf
 from tensorflow import keras
 import tensorflow.keras.backend as K
+
+
+def print_buildin_models():
+    print(
+        """
+    >>>> buildin_models
+    MXNet version resnet: mobilenet_m1, r18, r34, r50, r100, r101, se_r34, se_r50, se_r100
+    Keras application: mobilenet, mobilenetv2, resnet50, resnet50v2, resnet101, resnet101v2, resnet152, resnet152v2
+    EfficientNet: efficientnetb[0-7], efficientnetl2, efficientnetv2b[1-3], efficientnetv2[t, s, m, l, xl]
+    Custom 1: ghostnet, mobilefacenet, mobilenetv3_small, mobilenetv3_large, se_mobilefacenet, se_resnext, vargface
+    Or other names from keras.applications like DenseNet121 / InceptionV3 / NASNetMobile / VGG19.
+    """,
+        end="",
+    )
+
+
+def __init_model_from_name__(name, input_shape=(112, 112, 3), weights="imagenet", **kwargs):
+    name_lower = name.lower()
+    """ Basic model """
+    if name_lower == "mobilenet":
+        xx = keras.applications.MobileNet(input_shape=input_shape, include_top=False, weights=weights, **kwargs)
+    elif name_lower == "mobilenet_m1":
+        from backbones import mobilenet_m1
+
+        xx = mobilenet_m1.MobileNet(input_shape=input_shape, include_top=False, weights=None, **kwargs)
+    elif name_lower == "mobilenetv2":
+        xx = keras.applications.MobileNetV2(input_shape=input_shape, include_top=False, weights=weights, **kwargs)
+    elif "r18" in name_lower or "r34" in name_lower or "r50" in name_lower or "r100" in name_lower or "r101" in name_lower:
+        from backbones import resnet  # MXNet insightface version resnet
+
+        use_se = True if name_lower.startswith("se_") else False
+        model_name = "ResNet" + name_lower[4:] if use_se else "ResNet" + name_lower[1:]
+        use_se = kwargs.pop("use_se", use_se)
+        model_class = getattr(resnet, model_name)
+        xx = model_class(input_shape=input_shape, classes=0, use_se=use_se, model_name=model_name, **kwargs)
+    elif name_lower.startswith("resnet"):  # keras.applications.ResNetxxx
+        if name_lower.endswith("v2"):
+            model_name = "ResNet" + name_lower[len("resnet") : -2] + "V2"
+        else:
+            model_name = "ResNet" + name_lower[len("resnet") :]
+        model_class = getattr(keras.applications, model_name)
+        xx = model_class(weights=weights, include_top=False, input_shape=input_shape, **kwargs)
+    elif name_lower.startswith("efficientnetv2"):
+        import keras_efficientnet_v2
+
+        model_name = "EfficientNetV2" + name_lower[len("EfficientNetV2") :].upper()
+        model_class = getattr(keras_efficientnet_v2, model_name)
+        xx = model_class(pretrained=weights, num_classes=0, input_shape=input_shape, **kwargs)
+    elif name_lower.startswith("efficientnet"):
+        import keras_efficientnet_v2
+
+        model_name = "EfficientNetV1" + name_lower[-2:].upper()
+        model_class = getattr(keras_efficientnet_v2, model_name)
+        xx = model_class(pretrained=weights, num_classes=0, input_shape=input_shape, **kwargs)
+    elif name_lower.startswith("se_resnext"):
+        from keras_squeeze_excite_network import se_resnext
+
+        if name_lower.endswith("101"):  # se_resnext101
+            depth = [3, 4, 23, 3]
+        else:  # se_resnext50
+            depth = [3, 4, 6, 3]
+        xx = se_resnext.SEResNextImageNet(weights=weights, input_shape=input_shape, include_top=False, depth=depth)
+    elif name_lower.startswith("mobilenetv3"):
+        model_class = keras.applications.MobileNetV3Small if "small" in name_lower else keras.applications.MobileNetV3Large
+        xx = model_class(input_shape=input_shape, include_top=False, weights=weights, include_preprocessing=False)
+    elif "mobilefacenet" in name_lower or "mobile_facenet" in name_lower:
+        from backbones import mobile_facenet
+
+        use_se = True if "se" in name_lower else False
+        xx = mobile_facenet.MobileFaceNet(input_shape=input_shape, include_top=False, name=name, use_se=use_se)
+    elif name_lower == "ghostnet":
+        from backbones import ghost_model
+
+        xx = ghost_model.GhostNet(input_shape=input_shape, include_top=False, width=1.3, **kwargs)
+    elif name_lower == "vargface":
+        from backbones import vargface
+
+        xx = vargface.VargFace(input_shape=input_shape, **kwargs)
+    elif hasattr(keras.applications, name):
+        model_class = getattr(keras.applications, name)
+        xx = model_class(weights=weights, include_top=False, input_shape=input_shape, **kwargs)
+    else:
+        return None
+    xx.trainable = True
+    return xx
+
+
+# MXNET: bn_momentum=0.9, bn_epsilon=2e-5, TF default: bn_momentum=0.99, bn_epsilon=0.001, PyTorch default: momentum=0.1, eps=1e-05
+# MXNET: use_bias=True, scale=False, cavaface.pytorch: use_bias=False, scale=True
+def buildin_models(
+    stem_model,
+    dropout=1,
+    emb_shape=512,
+    input_shape=(112, 112, 3),
+    output_layer="GDC",
+    bn_momentum=0.99,
+    bn_epsilon=0.001,
+    add_pointwise_conv=False,
+    pointwise_conv_act="relu",
+    use_bias=False,
+    scale=True,
+    weights="imagenet",
+    **kwargs
+):
+    if isinstance(stem_model, str):
+        xx = __init_model_from_name__(stem_model, input_shape, weights, **kwargs)
+        name = stem_model
+    else:
+        name = stem_model.name
+        xx = stem_model
+
+    if bn_momentum != 0.99 or bn_epsilon != 0.001:
+        print(">>>> Change BatchNormalization momentum and epsilon default value.")
+        for ii in xx.layers:
+            if isinstance(ii, keras.layers.BatchNormalization):
+                ii.momentum, ii.epsilon = bn_momentum, bn_epsilon
+        xx = keras.models.clone_model(xx)
+
+    inputs = xx.inputs[0]
+    nn = xx.outputs[0]
+
+    if add_pointwise_conv:  # Model using `pointwise_conv + GDC` / `pointwise_conv + E` is smaller than `E`
+        filters = nn.shape[-1] // 2 if add_pointwise_conv == -1 else 512  # Compitable with previous models...
+        nn = keras.layers.Conv2D(filters, 1, use_bias=False, padding="valid", name="pw_conv")(nn)
+        # nn = keras.layers.Conv2D(nn.shape[-1] // 2, 1, use_bias=False, padding="valid", name="pw_conv")(nn)
+        nn = keras.layers.BatchNormalization(momentum=bn_momentum, epsilon=bn_epsilon, name="pw_bn")(nn)
+        if pointwise_conv_act.lower() == "prelu":
+            nn = keras.layers.PReLU(shared_axes=[1, 2], name="pw_" + pointwise_conv_act)(nn)
+        else:
+            nn = keras.layers.Activation(pointwise_conv_act, name="pw_" + pointwise_conv_act)(nn)
+
+    if output_layer == "E":
+        """Fully Connected"""
+        nn = keras.layers.BatchNormalization(momentum=bn_momentum, epsilon=bn_epsilon, name="E_batchnorm")(nn)
+        if dropout > 0 and dropout < 1:
+            nn = keras.layers.Dropout(dropout)(nn)
+        nn = keras.layers.Flatten(name="E_flatten")(nn)
+        nn = keras.layers.Dense(emb_shape, use_bias=use_bias, kernel_initializer="glorot_normal", name="E_dense")(nn)
+        nn = keras.layers.Reshape([1, 1, -1])(nn)  # expand_dims to 4D again for applying BatchNormalization
+    elif output_layer == "GAP":
+        """GlobalAveragePooling2D"""
+        nn = keras.layers.BatchNormalization(momentum=bn_momentum, epsilon=bn_epsilon, name="GAP_batchnorm")(nn)
+        nn = keras.layers.GlobalAveragePooling2D(keepdims=True, name="GAP_pool")(nn)
+        if dropout > 0 and dropout < 1:
+            nn = keras.layers.Dropout(dropout)(nn)
+        nn = keras.layers.Dense(emb_shape, use_bias=use_bias, kernel_initializer="glorot_normal", name="GAP_dense")(nn)
+    elif output_layer == "GDC":
+        """GDC"""
+        nn = keras.layers.DepthwiseConv2D(nn.shape[1], use_bias=False, name="GDC_dw")(nn)
+        # nn = keras.layers.Conv2D(nn.shape[-1], nn.shape[1], use_bias=False, padding="valid", groups=nn.shape[-1])(nn)
+        nn = keras.layers.BatchNormalization(momentum=bn_momentum, epsilon=bn_epsilon, name="GDC_batchnorm")(nn)
+        if dropout > 0 and dropout < 1:
+            nn = keras.layers.Dropout(dropout)(nn)
+        nn = keras.layers.Conv2D(emb_shape, 1, use_bias=use_bias, kernel_initializer="glorot_normal", name="GDC_conv")(nn)
+        # nn = keras.layers.Dense(emb_shape, activation=None, use_bias=use_bias, kernel_initializer="glorot_normal", name="GDC_dense")(nn)
+    elif output_layer == "F":
+        """F, E without first BatchNormalization"""
+        if dropout > 0 and dropout < 1:
+            nn = keras.layers.Dropout(dropout)(nn)
+        nn = keras.layers.Flatten(name="F_flatten")(nn)
+        nn = keras.layers.Dense(emb_shape, use_bias=use_bias, kernel_initializer="glorot_normal", name="F_dense")(nn)
+        nn = keras.layers.Reshape([1, 1, -1])(nn)  # expand_dims to 4D again for applying BatchNormalization
+
+    # `fix_gamma=True` in MXNet means `scale=False` in Keras
+    embedding = keras.layers.BatchNormalization(momentum=bn_momentum, epsilon=bn_epsilon, scale=scale, name="pre_embedding")(nn)
+    embedding = keras.layers.Flatten()(embedding)
+    embedding_fp32 = keras.layers.Activation("linear", dtype="float32", name="embedding")(embedding)
+
+    basic_model = keras.models.Model(inputs, embedding_fp32, name=xx.name)
+    return basic_model
 
 
 @keras.utils.register_keras_serializable(package="keras_insightface")
