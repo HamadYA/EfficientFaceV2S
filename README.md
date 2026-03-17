@@ -333,11 +333,21 @@ tt.train(sch, 0)
   ***
 
 ## Citation
-If you use EfficientFaceV2S (or any part of this code in your research), please cite the following:
+If you use EfficientFaceV2S (or any part of this code) in your research, please cite the following:
 
-```
-Alansari, Mohamad and Alnuaimi, Khaled and Ganapathi, Dr. Iyyakutti Iyappan and Alansari, Sara and Javed, Sajid and Shoufan, Abdulhadi and Zweiri, Yahya and Werghi, Naoufel, Efficientfacev2s: A Lightweight Model and a Benchmarking Approach for Drone-Captured Face Recognition. Available at SSRN: https://ssrn.com/abstract=4698437 or http://dx.doi.org/10.2139/ssrn.4698437
-
+```bibtex
+  @article{ALANSARI2025126786,
+  title = {EfficientFaceV2S: A lightweight model and a benchmarking approach for drone-captured face recognition},
+  journal = {Expert Systems with Applications},
+  volume = {273},
+  pages = {126786},
+  year = {2025},
+  issn = {0957-4174},
+  doi = {https://doi.org/10.1016/j.eswa.2025.126786},
+  url = {https://www.sciencedirect.com/science/article/pii/S0957417425004087},
+  author = {Mohamad Alansari and Khaled Alnuaimi and Iyyakutti Ganapathi and Sara Alansari and Sajid Javed and Abdulhadi Shoufan and Yahya Zweiri and Naoufel Werghi},
+  keywords = {Drone, EfficientNetV2, Face recognition, Unmanned Aerial Vehicles (UAVs)},
+  }
 ```
 and
   - **BibTeX**
@@ -356,6 +366,7 @@ and
 ***
 
   - **BibTeX**
+  - 
     ```bibtex
     @misc{leondgarse,
       author = {Leondgarse},
